@@ -1,0 +1,3 @@
+
+
+prompt('Input name', 'Name: ')
