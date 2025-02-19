@@ -34,7 +34,7 @@ Things to remember about `"use strict"`:
 Basinc information regarding working with variables, like their definitions, naming practices, differences between `let`/`var`/`const`, etc.
 
 ### Exercises:
-- 2_variables.js
+- 4_variables.js
 
 
 ### 2.5 Data types [link](https://javascript.info/types)
@@ -45,7 +45,7 @@ There are 8 basic data types:
   - `floating point`
   - special numeric values
     - `Infinity`/`-Infinity`
-    - `Nan` - It is a result of an incorrect or an undefined mathematical operation
+    - `NaN` - It is a result of an incorrect or an undefined mathematical operation
 - `BigInt`:
   - was recently added to the language to represent integers of arbitrary length
   - value is created by appending `n` to the end of an integer like so : `const bigInt = 1234567890123456789012345678901234567890n`
@@ -96,3 +96,54 @@ Used when we need to explicitly convert a value to the expected type.
 - **Boolean Conversion** it happens in logical operations but can also be performed explicitly with a call to `Boolean(value)`.
   - values that are intuitively **“empty”**, like `0`, an **empty string**, `null`, `undefined`, and `NaN`, become `false`.
   - other values become `true`.
+
+
+## 2.8 Basic operators, maths[link](https://javascript.info/operators)
+`Operand`: is what operators are applied to, like number or string.
+
+`Operator`: is either applied to one operand(`unary`) or evalueates an expression between 2 operands(`binary`):
+- `-x` is a unary operand that reverses a sign of a number
+- `x - y` is a binary operand that evaluates the expression
+
+Math operators:
+- `+`, `-`, `*`, `/`
+- `%`: Remainder of the integer division (8 % 3) // 2, the remainder of 8 divided by 3 is 2
+- `**`: Exponentiation ( a ** b raises a to the power of b)
+
+String concatenation with binary `+` :
+- `let s = "my" + "string` concatenates strings to one string
+- `'1' + 2 ` converts number to a string and concatenates
+- in more complex examples with more than 1 operator expression is evaluated one after another:
+  - `2 + 2 + '1'` // "41" and not "221"
+  - `'1' + 2 + 2` // "122" and not "14"
+- The binary `+` is the only operator that supports strings in such a way
+- Other arithmetic operators work **only** with numbers and always convert their operands to numbers
+  - `6 - '2'`  // 4, converts '2' to a number
+  - `'6' / '2'` // 3, converts both operands to numbers
+
+Numeric conversion, unary `+` :
+- does nothing to numbers
+- converts other data types into numbers like `Number()`:
+
+  `let apples = "2"`
+
+  `let oranges = "3"`
+
+  `+apples + +oranges` // 5 instead of '23'
+
+Operator precedence:
+- If an expression has more than one operator, the execution order is defined by their *precedence*, or, in other words, the default priority order of operators.
+- Parentheses override any precedence `(1 + 2) * 2`
+
+Modify-in-place:
+- `+=`,`-=`,`*=`, `/=` shorthand for `n = n + 5`
+- `n *= 3 + 5` // right part evaluated first, same as n *= 8
+
+Increment/decrement:
+- either prefix(`++counter` returns incemented value) or postfix(`counter++`, returns preincrement value )
+- can be used inside expressions like `2 * ++counter(1) // 4` but is harder to understand
+
+Bitwise operatos and Comma are rarely used in everyday programming, more in [link](https://javascript.info/operators#bitwise-operators)
+
+### Exercises:
+- 8_operatos.js
