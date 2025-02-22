@@ -147,3 +147,11 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 
 ### Exercises:
 - 8_operatos.js
+
+
+## 2.9 Comparisons [link](https://javascript.info/comparison)
+- note to be added ...
+
+
+### Exercises:
+- 9_comparisons.js
