@@ -198,3 +198,10 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 
 ### Exercises:
 - 13_switch.js
+
+
+## 2.14 Functions [link](https://javascript.info/function-basics)
+...
+
+### Exercises:
+- 14_functions.js
