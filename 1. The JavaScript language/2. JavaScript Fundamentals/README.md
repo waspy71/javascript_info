@@ -183,5 +183,18 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 ...
 
 
-### Exercises
+### Exercises:
 - 12_loops.js
+
+
+## 2.13 The "switch" statement [link](https://javascript.info/switch)
+- A `switch` statement can replace multiple if checks.
+- It gives a more *descriptive* way to compare a value with multiple variants.
+- Uses a `Strict comparison` so **type** is checked.
+- Each case has to end with `break` othrwise the execution continues with the next case without any checks.
+- Both switch and case allow arbitrary expressions (`switch (+a)`)(`case b + 1:`)
+- Several variants of `case` which share the same code **can be grouped**.
+
+
+### Exercises:
+- 13_switch.js
