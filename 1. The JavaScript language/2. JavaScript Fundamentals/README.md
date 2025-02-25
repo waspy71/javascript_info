@@ -179,15 +179,15 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 - due to low precedence it should always be used with parentheses
 
 
-## Loops: while and for [link](https://javascript.info/while-for)
+## 2.13 Loops: while and for [link](https://javascript.info/while-for)
 ...
 
 
 ### Exercises:
-- 12_loops.js
+- 13_loops.js
 
 
-## 2.13 The "switch" statement [link](https://javascript.info/switch)
+## 2.14 The "switch" statement [link](https://javascript.info/switch)
 - A `switch` statement can replace multiple if checks.
 - It gives a more *descriptive* way to compare a value with multiple variants.
 - Uses a `Strict comparison` so **type** is checked.
@@ -197,11 +197,43 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 
 
 ### Exercises:
-- 13_switch.js
+- 14_switch.js
 
 
-## 2.14 Functions [link](https://javascript.info/function-basics)
+## 2.15 Functions [link](https://javascript.info/function-basics)
 ...
 
 ### Exercises:
-- 14_functions.js
+- 15_functions.js
+
+
+## 2.16 Function expressions [link](https://javascript.info/function-expressions)
+`Functions` are a special type of values, they can be **assigned**, **copied** or **declared** in any place of the code.
+We can assign functions to variables e.g. `let func = mainFunction` (without parenteses the value of a function is its string representation)
+retulting in a *copy*. Calling `func()` will work just as calling `mainFunction()`.
+- `Function Declaration` is a function declared in the main code flow as a ** separate statement**
+  - `it is processed before the code block is executed(can be called earlier than defined). It is visible everywhere in the block
+- `Function Expression` is a function created as a **part of an expression** or other syntax construct
+  - it is created when the execution flow reaches them and is usable from that moment
+
+`Function Declaration` is preferable(in most cases) because is visible prior the declaration itself. They give us more flexibility in
+code organization.
+`Function Expression` should be used when `Function Declaration` is not fit for the task.
+
+- `Callback function` is a function that we pass as an argument and expect it to be *called back* later if necessary
+- `Anonymous function` is a function without a name ( just `function() {...}`)
+
+- In `strict mode`, when a Function Declaration is within a code block, it’s visible everywhere inside that block. But not outside of it.
+
+
+## 2.17 Arrow functions, the basics [link](https://javascript.info/arrow-functions)
+- Another very simple and concise syntax for creating functions e.g. `let func = (arg1, arg2, ..., argN) => expression`. Handy for simple actions, especially for one-liners
+  - if there's only one argument we can ommit the parentheses, if there's no argument the parentheses must be present
+- Two types of `arrow functions`:
+  - **Without** curly braces: `(...args) => expression` – the right side is an expression: the function evaluates it and returns the result. Parentheses *can be omitted*, if there’s only a single argument, e.g.` n => n*2`.
+  - **With** curly braces: `(...args) => { body }` – brackets allow us to write multiple statements inside the function, but *we need an explicit `return` to return something*.
+
+
+
+### Exercises:
+- 17_arrow_functions_basics.js
