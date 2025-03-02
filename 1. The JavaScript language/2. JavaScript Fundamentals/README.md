@@ -6,9 +6,9 @@
   - inside `body` element: `<script> your code here </script>`
   - as meta tag with source attribute inside head: `<script src="/path/to/script.js"></script>`
   - we can also attach multiple scripts each in separate script tag
--put ONLY the simplest scripts in HTML and more complex in separate files sos that they can be stored in cashe and be reused by other webpages
+- put ONLY the simplest scripts in HTML and more complex in separate files so that they can be stored in cashe and be reused by other webpages
 with same origin
--if `src=""` is set in `<script>` tag the content inside is ignored. We must choose either an external `<script src="…">` or a regular `<script>` with code, but we can still use more `<script>` tags together.
+- if `src=""` is set in `<script>` tag the content inside is ignored. We must choose either an external `<script src="…">` or a regular `<script>` with code, but we can still use more `<script>` tags together.
 
 ### Exercises:
 - 1_hello_world.html
@@ -75,7 +75,7 @@ There are 8 basic data types:
   until they hahve dealt with the window, in this case until they press OK.
 - `prompt` 
   - accepts 2 arguments `result = prompt(title, [default])`, title denotes the text shown to the visitor, an optional second parameter, the initial value for the input field.
-  - craetes window with input field and **OK**/**CANCEL** options, returns input or `null` if the input was canceled.
+  - creates window with input field and **OK**/**CANCEL** options, returns input or `null` if the input was canceled.
 - `confirm` shows a modal (`confirm(question)`) with a question and **OK**/**CANCEL** options. The result is `true` if **OK** is pressed and `false` otherwise.
 
 ### Exercises:
@@ -211,7 +211,7 @@ Bitwise operatos and Comma are rarely used in everyday programming, more in [lin
 `Functions` are a special type of values, they can be **assigned**, **copied** or **declared** in any place of the code.
 We can assign functions to variables e.g. `let func = mainFunction` (without parenteses the value of a function is its string representation)
 retulting in a *copy*. Calling `func()` will work just as calling `mainFunction()`.
-- `Function Declaration` is a function declared in the main code flow as a ** separate statement**
+- `Function Declaration` is a function declared in the main code flow as a **separate statement**
   - `it is processed before the code block is executed(can be called earlier than defined). It is visible everywhere in the block
 - `Function Expression` is a function created as a **part of an expression** or other syntax construct
   - it is created when the execution flow reaches them and is usable from that moment
@@ -234,6 +234,9 @@ code organization.
   - **With** curly braces: `(...args) => { body }` – brackets allow us to write multiple statements inside the function, but *we need an explicit `return` to return something*.
 
 
-
 ### Exercises:
 - 17_arrow_functions_basics.js
+
+
+## 2.18 JavaScript special [link](https://javascript.info/javascript-specials)
+Brief recap of JavaScript features up till now.
