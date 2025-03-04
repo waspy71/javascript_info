@@ -31,3 +31,24 @@ for (let key in user) {
 
 ### Exercises:
 - 1_objects.js
+
+
+### 4.2 Object references and copying [link](https://javascript.info/object-copy)
+- Objects are copied `by reference`, whereas Primitives `as a whole value`
+- A variable assigned to an object stores not the object itself, but its `“address in memory”` – in other words `“a reference”` to it.
+- When an object variable is copied, the reference is copied, but the object itself is not duplicated.
+- Two objects are equal **only** if they are the same object, two independent objects are not equal.
+
+Cloning objects:
+- `Object.assign(dest, ...sources)`, `dest` = target object, .`..sources` = list of source objects
+  - only performs `shallow copy` on primitive, non-nested values (assumes **ALL** properties are **PRIMITIVES**)
+  - example syntax `Object.assign(user, permissions1, permissions2)`
+  - if the copied property already exists, it gets **overwritten**
+  - can be used for **simple object cloning** like this `let clone = Object.assign({}, user);`
+  - **spread syntax** is shorthand way of doing the same `let newUser = {...user}`
+
+Nested cloning:
+  - used when Objects have other Object references as their properties (`deep copy`)
+  - `structuredClone(object)` clones the object with all nested properties (`let clone = structuredClone(user)`)
+    - **can** copy most data types, such as objects, arrays, primitives, circular reference to itself
+    - **can't** copy function references, this can be circumvented by writing a custom code or using `lodash` library `_.cloneDeep(obj)`
