@@ -52,3 +52,47 @@ Nested cloning:
   - `structuredClone(object)` clones the object with all nested properties (`let clone = structuredClone(user)`)
     - **can** copy most data types, such as objects, arrays, primitives, circular reference to itself
     - **can't** copy function references, this can be circumvented by writing a custom code or using `lodash` library `_.cloneDeep(obj)`
+
+
+  ## 4.3 Garbage collection [link](https://javascript.info/garbage-collection)
+  ...
+
+
+  ## 4.4 Object methods, "this" [link](https://javascript.info/object-methods)
+  - A function that is a property of an object is called its `method`.
+  - `this` is used when an object method needs to access the information stored in the object
+    - The *value* of `this` is the object **“before dot”**, the one used to call the method.
+    - The *value* of `this` is **evaluated during the run-time**, depending on the context.
+   ```javascript
+    let user = { name: "John" };
+    let admin = { name: "Admin" };
+
+    function sayHi() {
+      alert( this.name );
+    }
+
+    // use the same function in two objects
+    user.f = sayHi;
+    admin.f = sayHi;
+
+    // these calls have different this
+    // "this" inside the function is the object "before the dot"
+    user.f(); // John  (this == user)
+    admin.f(); // Admin  (this == admin)
+
+    admin['f'](); // Admin (dot or square brackets access the method – doesn't matter)
+```
+  - `Arrow functions` *are special*: they don’t have their *“own”* this. If we reference this from such a function, it’s taken from the outer *“normal”* function. It’s useful when we actually do not want to have a separate `this`, but rather to take it from the outer context.
+
+
+  ### Exercises:
+  - 4_object_methods_this.js
+
+
+
+
+
+
+
+
+
