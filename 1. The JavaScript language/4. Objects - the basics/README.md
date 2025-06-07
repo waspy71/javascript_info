@@ -249,14 +249,14 @@ We can implement string and numeric conversion by ourselves, using special objec
 
 Hints
 - Javascript uses `hints` to decide which conversion to apply
-- there are 3 variants of og type conversion:
+- there are 3 variants of type conversion:
   - `string` - for an **object-to-string conversion**, when we’re doing an operation on an object that expects a string, like `alert`
   - `number` - for an **object-to-number conversion**, like when we’re doing maths. Most built-in mathematical functions also include such conversion.
   - `default` - occurs in rare cases **when the operator is “not sure”** what type to expect (e.g. binary `+` can work with strings or numbers, or with `==` when string, number or a symbol can also be compared - then Javascript uses the `default`)
 
 In practice though, things are a bit simpler.
 All built-in objects except for one case (Date object) implement `default` conversion the same way as `number`. And we probably should do the same.
-`
+
 Still, it’s important to know about all 3 hints, soon we’ll see why.
 
 **To do the conversion, JavaScript tries to find and call three object methods**:
@@ -294,13 +294,15 @@ Symbol.toPrimitive
 As we can see from the code, `user` **becomes a self-descriptive string or a money amount**, depending on the conversion. The single method `user[Symbol.toPrimitive]` handles all conversion cases.
 
 
-toString/valueOf
+
+**toString/valueOf**
+
 If there’s no `Symbol.toPrimitive` then JavaScript tries to find methods `toString` and `valueOf`:
  - For the `string` hint: call `toString` method, and if it doesn’t exist or if it returns an object instead of a primitive value, then call `valueOf` (so `toString` has the priority for string conversions).
  - For other hints: call `valueOf`, and if it doesn’t exist or if it returns an object instead of a primitive value, then call `toString` (so `valueOf` has the priority for maths).
  - If `toString` or `valueOf` returns an object, then it’s ignored (same as if there were no method).
 
-By default, a plain object has following toString and valueOf methods:
+By default, a plain object has following `toString` and `valueOf` methods:
 - The `toString` method returns a string `[object Object]`.
 - The `valueOf` method returns the object itself.
 
@@ -361,6 +363,7 @@ In the absence of `Symbol.toPrimitive` and `valueOf`, `toString` will handle all
 
 
 Further conversions
+
 As we know already, many operators and functions perform type conversions, e.g. multiplication `*` converts operands to numbers.
 If we pass an object as an argument, then there are two stages of calculations:
 - The object is converted to a primitive (using the rules described above).
