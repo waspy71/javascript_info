@@ -153,3 +153,211 @@ To read a number from a string we use `parseInt` and `parseFloat`
 
 ### Exercises:
 - 2_numbers.js
+
+
+
+
+## 5.3 Strings [link](https://javascript.info/string)
+
+### Quotes
+Strings can be enclosed within either single quotes, double quotes or backticks:
+  - backticks allow us to **embed** any expression into the string, by wrapping it in `${…}` also allow for string to span multiple lines.
+
+
+### Special characters
+They allow for:
+  - breaking a string with single and double quotes with `\n` e.g. `"Guests:\n * John\n * Pete\n * Mary"`
+  - using `\` ("escape character") to show special characters e.g. `\"`, `\\` or `'I\'m the Walrus!'`
+
+
+### String length
+The `length` property has the string length:
+```javascript
+alert( `My\n`.length ); // 3   --> Note that \n is a single “special” character, so the length is indeed 3(index starts from 0).
+```
+We use `str.length` instead `str.length()` (like in some other languages) or it wont work since it's a numeric property, not a function.
+Not `.length()`, but `.length`.
+
+
+### Accessing 
+To get a character at position `pos`, use square brackets `[pos]` or call the method `str.at(pos)`. The first character starts from the zero position.
+- `.at(pos)` allows for negative indexes e.g. `.at(-1)` (so the last position in `Hello` is `o` )
+- We can also iterate over characters using `for..of`:
+  ```javascript
+  for (let char of "Hello") {
+    alert(char); // H,e,l,l,o (char becomes "H", then "e", then "l" etc)
+  } 
+  ``` 
+
+### Strings are immutable
+Strings can’t be changed in JavaScript. It is impossible to change a character. The usual workaround is to create a whole new string and assign it to `str` instead of the old one.
+  ```javascript
+  let str = 'Hi';
+
+  str[0] = 'h'; // error
+  alert( str[0] ); // doesn't work
+
+  str = 'h' + str[1]; // replace the string
+  alert( str ); // hi
+  ``` 
+
+### Changing the case
+- `toLowerCase()` and `toUpperCase()` methods change the case, or if we want a certain index case `'Interface'[0].toLowerCase()`
+  
+### Searching for a substring
+There are multiple ways to look for a substring within a string.
+- `str.indexOf(substr, OPTIONAL pos)` It looks for the `substr` in `str`, starting from the given position `pos`, and returns the position where the match was found or `-1` if nothing can be found.
+  - is case sensitive
+  ```javascript
+  let str = 'Widget with id';
+
+  alert( str.indexOf('Widget') ); // 0, because 'Widget' is found at the beginning
+  alert( str.indexOf('widget') ); // -1, not found, the search is case-sensitive
+
+  alert( str.indexOf("id") ); // 1, "id" is found at the position 1 (..idget with id)
+  alert( str.indexOf('id', 2) ) // 12 the optional second parameter allows us to start searching from a given position
+  ```
+- If we’re interested in all occurrences, we can run `indexOf` in a `loop`. Every new call is made with the position after the previous match:
+  ```javascript
+  let str = 'As sly as a fox, as strong as an ox';
+
+  let target = 'as'; // let's look for it
+
+  let pos = 0;
+  while (true) {
+    let foundPos = str.indexOf(target, pos);
+    if (foundPos == -1) break;
+
+    alert( `Found at ${foundPos}` );
+    pos = foundPos + 1; // continue the search from the next position
+  }
+  ```
+  or
+  ```javascript
+  let str = "As sly as a fox, as strong as an ox";
+  let target = "as";
+
+  let pos = -1;
+  while ((pos = str.indexOf(target, pos + 1)) != -1) {
+    alert( pos );
+  }
+  ```
+  - `str.lastIndexOf(substr, position)` searches from the end of a string to its beginning. It would list the occurrences in the reverse order.
+  - There is a slight inconvenience with `indexOf` in the `if` test. We can’t put it in the if like this:
+  ```javascript
+  let str = "Widget with id";
+
+  if (str.indexOf("Widget")) {  //  the evaluation of "indexOf" returns "0" which evaluates to "false"
+      alert("We found it"); // doesn't work!
+  }
+
+  if (str.indexOf("Widget") != -1) {  // so checking for "-1" evaluates to "true" 
+      alert("We found it"); // works now!
+  }
+  ```
+
+  ### includes, startsWith, endsWith
+  - `str.includes(substr, pos)` method returns `true/false` depending on whether `str` contains `substr` within.
+  - The optional second argument of `str.includes` is the position to start searching from.
+  ```javascript
+  alert( "Widget with id".includes("Widget") ); // true
+  alert( "Hello".includes("Bye") ); // false
+  ```
+  - The methods `str.startsWith` and `str.endsWith` do exactly what they say:
+  ```javascript
+  alert( "Widget".startsWith("Wid") ); // true, "Widget" starts with "Wid"
+  alert( "Widget".endsWith("get") ); // true, "Widget" ends with "get"
+  ```
+
+### Getting a substring
+There are 3 methods in JavaScript to get a substring
+- `str.slice(start [, end])` 
+  - returns the part of the string from start to (but not including) end e.g. `let str = "stringify"` `alert( str.slice(0, 5) )` returns `'string'`
+  - if there is no second argument, then slice goes till the end of the string e.g. `alert( str.slice(2) )` returns `'ringify'`
+  - negative values for start/end are also possible. They mean the position is counted from the string end `alert( str.slice(-4, -1) )` returns `'gif'`
+
+- `str.substring(start [, end])`
+  - returns the part of the `string` between `start` and `end` (not including `end`).
+  - same as `slice`, but it allows `start` to be greater than `end` (in this case it simply swaps `start` and `end` values)
+  ```javascript 
+  let str = "stringify";
+  // these are same for substring
+  alert( str.substring(2, 6) ); // "ring"
+  alert( str.substring(6, 2) ); // "ring"
+
+  // ...but not for slice:
+  alert( str.slice(2, 6) ); // "ring" (the same)
+  alert( str.slice(6, 2) ); // "" (an empty string)
+  ```
+  - negative arguments are (unlike `slice`) not supported, they are treated as `0`.
+
+- `str.substr(start [, length])`
+  - returns the part of the string from `start`, with the given `length`.
+  - the first argument may be negative, to count from the `end`
+  ```javascript
+  let str = "stringify";
+  alert( str.substr(2, 4) ); // 'ring', from the 2nd position get 4 characters
+
+  alert( str.substr(-4, 2) ); // 'gi', from the 4th position get 2 characters
+  ```
+
+For practical use it’s enough to remember only `slice`.
+
+### Comparing strings
+-  strings are compared character-by-character in alphabetical order
+- a lowercase letter is always greater than the uppercase
+- letters with diacritical marks are *“out of order”* e.g. `alert( 'Österreich' > 'Zealand' ); // true`
+
+Strings in Javascript are encoded using `UTF-16` (each character has a corresponding numeric code)
+- `str.codePointAt(pos)` returns a decimal number representing the code for the character at position `pos`:
+```javascript
+// different case letters have different codes
+alert( "Z".codePointAt(0) ); // 90
+alert( "z".codePointAt(0) ); // 122
+alert( "z".codePointAt(0).toString(16) ); // 7a (if we need a hexadecimal value)
+```
+
+- `String.fromCodePoint(code)` creates a character by its numeric code
+```javascript
+    alert( String.fromCodePoint(90) ); // Z
+    alert( String.fromCodePoint(0x5a) ); // Z (we can also use a hex value as an argument)
+```
+Now let’s see the characters with codes 65..220 (the latin alphabet and a little bit extra) by making a string of them:
+```javascript
+  let str = '';
+
+  for (let i = 65; i <= 220; i++) {
+    str += String.fromCodePoint(i);
+  }
+  alert( str );
+  // Output:
+  // ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+  // ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜ
+```
+
+### Correct comparisons
+The “right” algorithm to do string comparisons is more complex than it may seem, because alphabets are different for different languages.
+Luckily, modern browsers support the internationalization standard `ECMA-402`.
+
+The call `str.localeCompare(str2)` method allows us to compare strings in different languages
+It returns an integer indicating whether `str` is less, equal or greater than `str2` according to the language rules:
+- Returns a negative number if `str` is less than `str2`.
+- Returns a positive number if `str` is greater than `str2`.
+- Returns `0` if they are equivalent.
+e.g. `alert( 'Österreich'.localeCompare('Zealand') ); // -1`
+This method has 2 additional arguments which allows it to specify the language (by default taken from the environment, letter order depends on the language) and setup additional rules like case sensitivity or should "a" and "á" be treated as the same etc.
+
+
+There are several other helpful methods in strings:
+- `str.trim()` – removes (“trims”) spaces from the beginning and end of the string.
+- `str.repeat(n)` – repeats the string `n` times.
+- …and more to be found in the manual.
+
+
+### Exercises:
+- 3_strings.js
+
+
+
+
+
