@@ -359,5 +359,261 @@ There are several other helpful methods in strings:
 
 
 
+## Arrays [link](https://javascript.info/array)
+`Array` is a *special data structure* to **store ordered collections**.
+  - unlike objects which store keyed collections arrays store ordered collections where we have a 1st, a 2nd, a 3rd element and so on. 
+  - arrays allow us to manage ordered collections unlike objects which have no methods to manage the order of elements (e.g. insert new property between the existing ones etc.)
 
 
+### Declaration
+```javascript
+// There are two syntaxes for creating an empty array
+let arr = new Array();
+let arr = [];
+
+//Almost all the time, the second syntax is used. We can supply initial elements in the brackets:
+let fruits = ["Apple", "Orange", "Plum"];
+
+// Array elements are numbered, starting with zero.
+// We can get an element by its number in square brackets:
+
+let fruits = ["Apple", "Orange", "Plum"];
+alert( fruits[1] ); // Orange
+
+// We can replace an element:
+fruits[2] = 'Pear'; // now ["Apple", "Orange", "Pear"]
+
+// …Or add a new one to the array:
+fruits[3] = 'Lemon'; // now ["Apple", "Orange", "Pear", "Lemon"]
+```
+arrays `length` property
+```javascript
+let fruits = ["Apple", "Orange", "Plum"];
+
+alert( fruits.length ); // 3  --> returns total count of the elements in the array
+```
+`Arrays` can store any type of element. We can use `alert` to show the whole `array` content:
+```javascript
+// mix of values
+let arr = [ 'Apple', { name: 'John' }, true, function() { alert('hello'); } ];
+
+// get the object at index 1 and then show its name
+alert( arr[1].name ); // John
+
+// get the function at index 3 and run it
+arr[3](); // hello
+
+let fruits = ["Apple", "Orange", "Plum"];
+
+alert( fruits ); // Apple,Orange,Plum
+
+// trailing comma
+let fruits = [
+  "Apple",
+  "Orange",
+  "Plum",
+];
+```
+
+The **“trailing comma”** style makes it easier to insert/remove items, because all lines become alike.
+
+### Get last elements with “at”
+To get the last element in array instead of using syntax `arr[arr.length - 1]` we can use `arr.at(-1)`
+  - we cant use `arr[-1]` like in some other languages, in JS this returns an `error`
+  - In other words, `arr.at(i)`:
+    - is exactly the same as `arr[i]`, if `i >= 0`.
+    - for negative values of `i`, it steps back from the end of the `array`.
+
+### Methods pop/push, shift/unshift
+A ***queue*** is one of the most common uses of an array. In computer science, this means an ordered collection of elements which supports two operations:
+- `push` appends an element to the end.
+- `shift` get an element from the beginning, advancing the `queue`, so that the 2nd element becomes the 1st.
+In practice we need it very often. For example, a queue of messages that need to be shown on-screen.
+
+There’s another use case for `arrays` – the data structure named ***stack***. It supports two operations:
+- `push` adds an element to the end.
+- `pop` takes an element from the end.
+
+Methods `push` and `unshift` can add multiple elements at once e.g. `fruits.push("Orange", "Peach")` and `fruits.unshift("Pineapple", "Lemon")`.
+
+For stacks, the latest pushed item is received first, that’s also called *LIFO* (**Last-In-First-Out**) principle. For queues, we have *FIFO* (**First-In-First-Out**).
+
+`Arrays` in JavaScript can work both as a ***queue*** and as a ***stack***. They allow you to add/remove elements, both to/from the beginning or the end. In computer science, the data structure that allows this, is called ***deque***.
+
+### Internals
+An `array` is a *special kind of object*. The square brackets used to access a property `arr[0]` actually come from the object syntax. That’s essentially the same as `obj[key]`, where `arr` is the object, while *numbers are used as keys*.
+
+They extend objects providing special methods to work with ordered collections of data and also the `length` property. But at the core it’s still an object.
+
+`Array` is an object and thus behaves like an object.
+For instance, it is copied by reference:
+```javascript
+let fruits = ["Banana"]
+
+let arr = fruits; // copy by reference (two variables reference the same array)
+
+alert( arr === fruits ); // true
+
+arr.push("Pear"); // modify the array by reference
+
+alert( fruits ); // Banana, Pear - 2 items now
+```
+…But what makes `arrays` really special is their internal representation. The engine tries to store its elements in the CONTIGOUS memory area, one after another, and there are other optimizations as well, to make arrays work really fast.
+
+But they all break if we quit working with an array as with an “ordered collection” and start working with it as if it were a regular object.
+- Add a non-numeric property like `arr.test = 5`.
+- Make holes, like: add `arr[0]` and then `arr[1000]` (and nothing between them).
+- Fill the array in the reverse order, like `arr[1000]`, `arr[999]` and so on.
+
+Please think of arrays as special structures to work with the ordered data. They provide special methods for that. Arrays are carefully tuned inside JavaScript engines to work with contiguous ordered data, please use them this way. And if you need arbitrary keys, chances are high that you actually require a regular object `{}`.
+
+### Performance
+Methods `push/pop` run fast, while `shift/unshift` are slow.
+- `push/pop` only add or remove item at the end of an `array`
+- `shitf/unshift` add or remove item at the front but at the same time it is required to renumber their indexes after the change
+which can take a lot of time depending on the size of the `array` and then update the `length` property
+
+### Loops
+- `for` loop the oldest ways to cycle array items (via indexes)
+- `for ... of` loop tailored for `arrays`
+  ```javascript
+  let fruits = ["Apple", "Orange", "Plum"];
+
+  // iterates over array elements
+  for (let fruit of fruits) {
+    alert( fruit );
+  }
+  ```
+  The `for..of` doesn’t give access to the number of the current element, just its value, but in most cases that’s enough. And it’s shorter.
+- `for ... in` loop **not recommended** to use with `arrays` since:
+  - technically, because `arrays` are `objects`, it is also possible to use `for..in`:
+  ```javascript
+  let arr = ["Apple", "Orange", "Pear"];
+
+  for (let key in arr) {
+    alert( arr[key] ); // Apple, Orange, Pear
+  }
+  ```
+  - The loop `for..in` iterates over all properties, not only the numeric ones. In browser and some other environments there are so called
+  "array-like" objects (with `length`, indexes properties, but also may use non-numeric properties and methods we don't need). These properties
+  "extra" properties can become a problem since `for ...in` loop will list them.
+  - The `for..in` loop is optimized for generic objects, not arrays, and thus is 10-100 times slower.
+
+### A word about “length”
+- the `length` property automatically updates when we modify the `array`. To be precise, it is actually not the count of values in the `array`, but the greatest numeric index plus one.
+- `length` is writable meaning if we increase it manually nothing happens but if we decrease it, the `array` is truncated, this process is **irreversible**!
+```javascript
+// For instance, a single element with a large index gives a big length:
+let fruits = [];
+fruits[123] = "Apple";
+
+alert( fruits.length ); // 124
+
+// changing the 'length'
+let arr = [1, 2, 3, 4, 5];
+
+arr.length = 2; // truncate to 2 elements
+alert( arr ); // [1, 2]
+
+arr.length = 5; // return length back
+alert( arr[3] ); // undefined: the values do not return
+```
+- the simplest way to clear the `array` is: `arr.length = 0`
+
+
+### new Array()
+The `new Array()` syntax is rarely used since `[]` are shorter, if we create `new Array(2)` it will create an  `array` without items with length of 2 (`arr[2]` return `undefined`). Best to avoid such declaration unless we know what to do.
+
+### Multidimensional arrays
+Arrays can have items that are also arrays. We can use it for multidimensional arrays, for example to store matrices:
+```javascript
+let matrix = [
+  [1, 2, 3],
+  [4, 5, 6],
+  [7, 8, 9]
+];
+
+alert( matrix[0][1] ); // 2, the second value of the first inner array
+```
+
+### toString
+Arrays have their own implementation of `toString` method that returns a comma-separated list of elements.
+```javascript
+let arr = [1, 2, 3];
+
+alert( arr ); // 1,2,3
+alert( String(arr) === '1,2,3' ); // true
+
+// Also, let’s try this:
+alert( [] + 1 ); // "1"
+alert( [1] + 1 ); // "11"
+alert( [1,2] + 1 ); // "1,21"
+```
+Arrays do not have `Symbol.toPrimitive`, neither a viable `valueOf`, they implement only `toString` conversion, so here `[]` becomes an empty string, `[1]` becomes `"1"` and `[1,2]` becomes `"1,2"`.
+
+### Don’t compare arrays with ==
+Arrays shouldn't be compared with `==` since they compare them like objects and the same rules apply:
+- two objects are equal == only if they’re references to the same object.
+- if one of the arguments of `==` is an object, and the other one is a primitive, then the object gets converted to primitive
+more info in link
+
+
+
+### Exercises:
+- 4_arrays.js
+
+
+## 5.5 Array methods [link](https://javascript.info/array-methods)
+- Add/remove items:
+  - `arr.splice(start[, deleteCount, elem1, ..., elemN])`, can do everything, insert, remove, replace
+    - starts from the index `start`, removes `deleteCount` elements, and then inserts `elem1, ...`, returns array of removed items
+    - allows `negative` numbers to count from the end
+    - example `arr.splice(0, 0, ...somveArrValues)` will spread and add like `upshift`
+  - `arr.slice()`, same as `str.slice`, copies elements in provided range and returns new subarray, can be used to simply make a copy
+  - `arr.concat(arg1, arg2)` creates NEW array from provided arrays and OTHER values(objects, etc) `arr.concat([3, 4], 5, 6)`
+    - objects are added as a whole `[1, 2].concat({0: "something", 1: "else", length: 2})` = `1,2,[object Object]`
+    - if object HAS symbol `[Symbol.isConcatSpreadable]: true` then its treated as an array by `concat` = `1,2,something,else`
+    - Array-LIKE object needs to have proper length and keys as numbers not strings
+
+-  Iterate: `.forEach()`:
+  - The `arr.forEach(function(item, index, array)` method allows to run a function for every element of the array:
+    ```javascript
+    ["Bilbo", "Gandalf", "Nazgul"].forEach((item, index, array) => { 
+      // each of the arguments is PASSED into the provided function in order when you just write 'forEach(alert)' so it has an access to them
+      alert(`${item} is at index ${index} in ${array}`); // item=Bilbo, index=0, array=Bilbo,Gandal,Nazgul
+    });
+    ```
+
+- Searching in array:
+  - `indexOf/lastIndexOf and includes`:
+    - perform the SAME function as their `string` counterparts
+    - `includes` methods handles `NaN` correctly while `indexOf` returns `-1` since its an old function
+  - `find and findIndex/findLastIndex`:
+    - `arr.find(function(item, index, array){})` works similar to `forEach`, iteration over an array using provided function
+      - if function returns `true` the search is stopped and `item` returned otherwise `undefined`
+    - `findIndex/findLastIndex` have the same synthax but return `position` of the item or `-1`
+  - `filter(function(item, index, array){})`, `find` looks for FIRST matching element and returns `true`, `filter` looks for all matches and
+  returns NEW array with ALL matches
+
+- Transform an array:
+  - `arr.map(fn(item, index, array) {})` It calls the function for each element of the array and returns the array of results
+  - `sort(fn)` sorts the array in **PLACE**(`toSorted(fn)` returns sorted copy), changing its element order:
+    - without a `fn` provided array items are **CONVERTED** to strings and compared in LEXICOGRAPHIC order so `2 > 15 = 15, 2, ...`
+    - to work as intended we need to supply our own function comparing 2 things `function compare(a, b)` more in docs
+  - `reverse()` reverses the order of array items, MODIFIES IN PLACE
+  - `split(delim)` splits the string into an array by the given delimiter `delim`(can be `''` for splitting string by letter)
+  - `join(glue)` creates a string of `arr` items joined by `glue` between them
+  - `arr.reduce(function(accumulator, item, index, array) {// ...}, [initial])`, `initial` if provided is used as first call `accumulator`
+    - if no `initial` is provided the 1st array element is used as it and execution starts from second element
+  - `reduceRight()` does the same as above but in reverse order
+
+- `Array.isArray([])` returns `true` if provided value is an array otherwise `false`, works for arrays instead of `typeof`
+
+- Most methods support `“thisArg”`:
+  - more sophisticated feature of functions above allowing for object methods to recognize `this` when calling a method
+  - `users.filter(army.canJoin, army)` is same as `users.filter(user => army.canJoin(user))`
+
+- Summary has more methods that are less frequently used but worth checking
+
+### Exercises:
+- 5_array_methods.js
